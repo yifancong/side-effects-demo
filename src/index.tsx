@@ -14,8 +14,12 @@ root.render(
   </React.StrictMode>,
 );
 
+// CJS require demo — triggers E1008 cjs-require rule warning
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const cjsDemo = require('./cjs-require-demo');
 console.log('App started');
 console.log('Button:', Button());
+console.log('CJS demo result:', cjsDemo.compute(1, 2));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
