@@ -4,6 +4,7 @@ import './index.css';
 import { Button } from './components';
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
+import * as dualPackage from './esm-import-cjs-demo'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -20,6 +21,10 @@ const cjsDemo = require('./cjs-require-demo');
 console.log('App started');
 console.log('Button:', Button());
 console.log('CJS demo result:', cjsDemo.compute(1, 2));
+
+// ESM import resolved to CJS demo — triggers E1009 esm-resolved-to-cjs rule warning
+
+console.log('ESM-import-CJS demo badge:', dualPackage.getDemoBadgeComponent());
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

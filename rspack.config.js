@@ -87,23 +87,22 @@ const config = {
   stats: 'verbose',
   resolve: {
     extensions: ['...', '.tsx', '.ts', '.jsx'], // "..." means to extend from the default extensions
+    // Intentionally omit 'module' to demonstrate E1009: esm-resolved-to-cjs.
+    // Packages like @arco-design/web-react declare both "module" (ESM) and "main" (CJS).
+    // Without 'module' in mainFields, rspack falls back to "main" (CJS) even for
+    // ESM `import` statements, preventing tree-shaking.
+    // Fix: restore ['browser', 'module', 'main'] so ESM entries are preferred.
+    mainFields: ['browser', 'main'],
   },
   plugins: [
     new ReactRefreshPlugin(),
     new RsdoctorRspackPlugin({
-      disableClientServer: process.env.ENABLE_CLIENT_SERVER === 'false',
       features: ['bundle', 'plugins', 'loader', 'treeShaking'],
-      // mode: 'brief',
-      linter: {
-        rules: {
-          'ecma-version-check': [
-            'Warn',
-            {
-              ecmaVersion: 3,
-            },
-          ],
-          'tree-shaking-side-effects-only': 'Warn',
-        },
+      output: {
+        mode: 'brief',
+        options: {
+          type: ['json']
+        }
       },
     }),
     new rspack.HtmlRspackPlugin({
